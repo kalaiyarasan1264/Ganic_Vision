@@ -71,6 +71,8 @@ class EdgeConnect():
             self.inpaint_model.save()
 
     def train(self):
+        print(self.train_dataset)  # Add similar checks for val_dataset and test_dataset
+        print(len(self.train_dataset))
         train_loader = DataLoader(
             dataset=self.train_dataset,
             batch_size=self.config.BATCH_SIZE,
@@ -101,6 +103,11 @@ class EdgeConnect():
 
                 images, images_gray, edges, masks = self.cuda(*items)
 
+                #print("Batch Information:")
+                #print("Images Shape:", images.shape)
+                #print("Images Gray Shape:", images_gray.shape)
+                #print("Edges Shape:", edges.shape)
+                #print("Masks Shape:", masks.shape)
                 # edge model
                 if model == 1:
                     # train
