@@ -7,7 +7,9 @@ import numpy as np
 import torchvision.transforms.functional as F
 from torch.utils.data import DataLoader
 from PIL import Image
-from scipy.misc import imread
+from imageio import imread
+from skimage.transform import resize
+
 from skimage.feature import canny
 from skimage.color import rgb2gray, gray2rgb
 from .utils import create_mask
@@ -87,7 +89,7 @@ class Dataset(torch.utils.data.Dataset):
 
         # in test mode images are masked (with masked regions),
         # using 'mask' parameter prevents canny to detect edges for the masked regions
-        mask = None if self.training else (1 - mask / 255).astype(np.bool)
+        mask = None if self.training else (1 - mask / 255).astype(bool)
 
         # canny
         if self.edge == 1:
@@ -99,7 +101,7 @@ class Dataset(torch.utils.data.Dataset):
             if sigma == 0:
                 sigma = random.randint(1, 4)
 
-            return canny(img, sigma=sigma, mask=mask).astype(np.float)
+            return canny(img, sigma=sigma, mask=mask).astype(float)
 
         # external
         else:
@@ -146,7 +148,9 @@ class Dataset(torch.utils.data.Dataset):
         if mask_type == 6:
             mask = imread(self.mask_data[index])
             mask = self.resize(mask, imgh, imgw, centerCrop=False)
-            mask = rgb2gray(mask)
+            #mask = rgb2gray(mask)
+            if len(mask.shape) == 3:
+              mask = rgb2gray(mask)
             mask = (mask > 0).astype(np.uint8) * 255
             return mask
 
@@ -165,7 +169,8 @@ class Dataset(torch.utils.data.Dataset):
             i = (imgw - side) // 2
             img = img[j:j + side, i:i + side, ...]
 
-        img = scipy.misc.imresize(img, [height, width])
+        #img = scipy.misc.imresize(img, [height, width])
+        img = resize(img, (height, width), mode='constant')
 
         return img
 
