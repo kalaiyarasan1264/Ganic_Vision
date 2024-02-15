@@ -8,11 +8,11 @@ import torchvision.transforms.functional as F
 from torch.utils.data import DataLoader
 from PIL import Image
 from imageio import imread
-from skimage.transform import resize
-
+# from scipy.misc import imread
 from skimage.feature import canny
 from skimage.color import rgb2gray, gray2rgb
 from .utils import create_mask
+from skimage.transform import resize
 
 
 class Dataset(torch.utils.data.Dataset):
@@ -89,7 +89,7 @@ class Dataset(torch.utils.data.Dataset):
 
         # in test mode images are masked (with masked regions),
         # using 'mask' parameter prevents canny to detect edges for the masked regions
-        mask = None if self.training else (1 - mask / 255).astype(bool)
+        mask = None if self.training else (1 - mask / 255).astype(np.bool)
 
         # canny
         if self.edge == 1:
@@ -101,7 +101,7 @@ class Dataset(torch.utils.data.Dataset):
             if sigma == 0:
                 sigma = random.randint(1, 4)
 
-            return canny(img, sigma=sigma, mask=mask).astype(float)
+            return canny(img, sigma=sigma, mask=mask).astype(np.float)
 
         # external
         else:
@@ -141,7 +141,7 @@ class Dataset(torch.utils.data.Dataset):
             mask_index = random.randint(0, len(self.mask_data) - 1)
             mask = imread(self.mask_data[mask_index])
             mask = self.resize(mask, imgh, imgw)
-            mask = (mask > 0).astype(np.uint8) * 255       # threshold due to interpolation
+            mask = (mask > 0).astype(np.uint8) * 255  # threshold due to interpolation
             return mask
 
         # test mode: load mask non random
@@ -149,8 +149,6 @@ class Dataset(torch.utils.data.Dataset):
             mask = imread(self.mask_data[index])
             mask = self.resize(mask, imgh, imgw, centerCrop=False)
             #mask = rgb2gray(mask)
-            if len(mask.shape) == 3:
-              mask = rgb2gray(mask)
             mask = (mask > 0).astype(np.uint8) * 255
             return mask
 
@@ -158,6 +156,21 @@ class Dataset(torch.utils.data.Dataset):
         img = Image.fromarray(img)
         img_t = F.to_tensor(img).float()
         return img_t
+
+    # def resize(self, img, height, width, centerCrop=True):
+    #     imgh, imgw = img.shape[0:2]
+    #
+    #     if centerCrop and imgh != imgw:
+    #         # center crop
+    #         side = np.minimum(imgh, imgw)
+    #         j = (imgh - side) // 2
+    #         i = (imgw - side) // 2
+    #         img = img[j:j + side, i:i + side, ...]
+    #
+    #     img = scipy.misc.imresize(img, [height, width], mode='F')
+    #     # img = resize(img, (height, width))
+    #
+    #     return img
 
     def resize(self, img, height, width, centerCrop=True):
         imgh, imgw = img.shape[0:2]
@@ -169,11 +182,16 @@ class Dataset(torch.utils.data.Dataset):
             i = (imgw - side) // 2
             img = img[j:j + side, i:i + side, ...]
 
-        #img = scipy.misc.imresize(img, [height, width])
-        img = resize(img, (height, width), mode='constant')
+        # Convert the NumPy array to a PIL Image
+        img_pil = Image.fromarray(img)
 
-        return img
+        # Resize using PIL
+        img_resized = img_pil.resize((width, height))
 
+        # Optionally convert back to NumPy array
+        img_resized = np.array(img_resized)
+
+        return img_resized
     def load_flist(self, flist):
         if isinstance(flist, list):
             return flist

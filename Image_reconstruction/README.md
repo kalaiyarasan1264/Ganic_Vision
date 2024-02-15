@@ -163,3 +163,28 @@ LOG_INTERVAL           | 10    | how many iterations to wait before logging trai
 SAMPLE_INTERVAL        | 1000  | how many iterations to wait before saving sample (0: never)
 SAMPLE_SIZE            | 12    | number of images to sample on each samling interval
 
+## License
+Licensed under a [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/).
+
+Except where otherwise noted, this content is published under a [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/) license, which means that you can copy, remix, transform and build upon the content as long as you do not use the material for commercial purposes and give appropriate credit and provide a link to the license.
+
+
+## Citation
+If you use this code for your research, please cite our papers <a href="https://arxiv.org/abs/1901.00212">EdgeConnect: Generative Image Inpainting with Adversarial Edge Learning</a> or <a href="http://openaccess.thecvf.com/content_ICCVW_2019/html/AIM/Nazeri_EdgeConnect_Structure_Guided_Image_Inpainting_using_Edge_Prediction_ICCVW_2019_paper.html">EdgeConnect: Structure Guided Image Inpainting using Edge Prediction</a>:
+
+```
+@inproceedings{nazeri2019edgeconnect,
+  title={EdgeConnect: Generative Image Inpainting with Adversarial Edge Learning},
+  author={Nazeri, Kamyar and Ng, Eric and Joseph, Tony and Qureshi, Faisal and Ebrahimi, Mehran},
+  journal={arXiv preprint},
+  year={2019},
+}
+
+@InProceedings{Nazeri_2019_ICCV,
+  title = {EdgeConnect: Structure Guided Image Inpainting using Edge Prediction},
+  author = {Nazeri, Kamyar and Ng, Eric and Joseph, Tony and Qureshi, Faisal and Ebrahimi, Mehran},
+  booktitle = {The IEEE International Conference on Computer Vision (ICCV) Workshops},
+  month = {Oct},
+  year = {2019}
+}
+```

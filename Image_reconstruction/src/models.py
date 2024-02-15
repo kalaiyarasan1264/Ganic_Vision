@@ -141,13 +141,13 @@ class EdgeModel(BaseModel):
         return outputs
 
     def backward(self, gen_loss=None, dis_loss=None):
-        if dis_loss is not None:
-            dis_loss.backward()
-        self.dis_optimizer.step()
-
         if gen_loss is not None:
             gen_loss.backward()
         self.gen_optimizer.step()
+        
+        if dis_loss is not None:
+            dis_loss.backward()
+        self.dis_optimizer.step()
 
 
 class InpaintingModel(BaseModel):
@@ -253,8 +253,8 @@ class InpaintingModel(BaseModel):
         return outputs
 
     def backward(self, gen_loss=None, dis_loss=None):
-        dis_loss.backward()
-        self.dis_optimizer.step()
-
         gen_loss.backward()
         self.gen_optimizer.step()
+
+        dis_loss.backward()
+        self.dis_optimizer.step()
