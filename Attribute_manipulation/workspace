@@ -1,0 +1,1 @@
+python test.py --img_root C:/Users/kalki/OneDrive/Desktop/Output --text_file ./test/text_flowers.txt --fasttext_model ./models/wiki.en.bin  --generator_model ./models/flowers_G.pth --output_root ./test/result_flowers
