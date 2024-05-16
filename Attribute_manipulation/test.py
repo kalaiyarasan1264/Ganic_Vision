@@ -22,6 +22,8 @@ parser.add_argument('--fasttext_model', type=str, required=True,
                     help='pretrained fastText model (binary file)')
 parser.add_argument('--generator_model', type=str, required=True,
                     help='pretrained generator model')
+parser.add_argument('--org_root', type=str, required=True,
+                    help='root directory of original output')
 parser.add_argument('--output_root', type=str, required=True,
                     help='root directory of output')
 parser.add_argument('--no_cuda', action='store_true',
@@ -60,11 +62,23 @@ if __name__ == '__main__':
         im = transform(im)
         img.append(im)
     img = torch.stack(img)
-    save_image(img, os.path.join(args.output_root, 'original.jpg'), pad_value=1)
+    save_image(img, os.path.join(args.output_root, 'reconstructed.jpg'), pad_value=1)
     img = img.mul(2).sub(1).to(device)
 
-    html = '<html><body><h1>Manipulated Images</h1><table border="1px solid gray" style="width=100%"><tr><td><b>Description</b></td><td><b>Image</b></td></tr>'
-    html += '\n<tr><td>ORIGINAL</td><td><img src="{}"></td></tr>'.format('original.jpg')
+
+    filenamesOrg = os.listdir(args.org_root)
+    images = []
+    for fn in filenamesOrg:
+        im = Image.open(os.path.join(args.org_root, fn))
+        im = transform(im)
+        images.append(im)
+    images = torch.stack(images)
+    save_image(images, os.path.join(args.output_root, 'original.jpg'), pad_value=1)
+    images = images.mul(2).sub(1).to(device)
+
+    html = '<html><body><h1>Input and Generated Images</h1><table border="1px solid gray" style="width=100%"><tr><td><b>Description</b></td><td><b>Image</b></td></tr>'
+    html += '\n<tr><td>Original Images</td><td><img src="{}"></td></tr>'.format('original.jpg')
+    html += '\n<tr><td>Reconstructed Images</td><td><img src="{}"></td></tr>'.format('reconstructed.jpg')
     with open(args.text_file, 'r') as f:
         texts = f.readlines()
 

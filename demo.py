@@ -30,6 +30,7 @@ def main():
         "--text_file D:/workspacee/Ganic_Vision/Attribute_manipulation/test/text_flowers.txt "
         "--fasttext_model D:/workspacee/Ganic_Vision/Attribute_manipulation/models/wiki.en.bin "
         "--generator_model D:/workspacee/Ganic_Vision/Attribute_manipulation/models/flowers_G.pth "
+        "--org_root C:/Users/kalki/OneDrive/Desktop/Input/images "
         "--output_root C:/Users/kalki/OneDrive/Desktop/Output/Final_Output"
     )
     run_command(command2)
