@@ -1,0 +1,3 @@
+Demo:
+
+python test.py --checkpoints ./checkpoints/places2 --input ./examples/places2/images --mask ./examples/places2/masks --output C:/Users/kalki/OneDrive/Desktop/Output 
