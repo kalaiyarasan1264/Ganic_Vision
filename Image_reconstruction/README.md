@@ -1,28 +1,10 @@
-## EdgeConnect: Generative Image Inpainting with Adversarial Edge Learning
-[ArXiv](https://arxiv.org/abs/1901.00212) | [BibTex](#citation)
-### Introduction:
-We develop a new approach for image inpainting that does a better job of reproducing filled regions exhibiting fine details inspired by our understanding of how artists work: *lines first, color next*. We propose a two-stage adversarial model EdgeConnect that comprises of an edge generator followed by an image completion network. The edge generator hallucinates edges of the missing region (both regular and irregular) of the image, and the image completion network fills in the missing regions using hallucinated edges as a priori. Detailed description of the system can be found in our [paper](https://arxiv.org/abs/1901.00212).
-<p align='center'>  
-  <img src='https://user-images.githubusercontent.com/1743048/50673917-aac15080-0faf-11e9-9100-ef10864087c8.png' width='870'/>
-</p>
-(a) Input images with missing regions. The missing regions are depicted in white. (b) Computed edge masks. Edges drawn in black are computed (for the available regions) using Canny edge detector; whereas edges shown in blue are hallucinated by the edge generator network. (c) Image inpainting results of the proposed approach.
+## Image Reconstruction
 
 ## Prerequisites
-- Python 3
-- PyTorch 1.0
+- Python 
+- PyTorch 
 - NVIDIA GPU + CUDA cuDNN
 
-## Installation
-- Clone this repo:
-```bash
-git clone https://github.com/knazeri/edge-connect.git
-cd edge-connect
-```
-- Install PyTorch and dependencies from http://pytorch.org
-- Install python requirements:
-```bash
-pip install -r requirements.txt
-```
 
 ## Datasets
 ### 1) Images
@@ -163,28 +145,3 @@ LOG_INTERVAL           | 10    | how many iterations to wait before logging trai
 SAMPLE_INTERVAL        | 1000  | how many iterations to wait before saving sample (0: never)
 SAMPLE_SIZE            | 12    | number of images to sample on each samling interval
 
-## License
-Licensed under a [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/).
-
-Except where otherwise noted, this content is published under a [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/) license, which means that you can copy, remix, transform and build upon the content as long as you do not use the material for commercial purposes and give appropriate credit and provide a link to the license.
-
-
-## Citation
-If you use this code for your research, please cite our papers <a href="https://arxiv.org/abs/1901.00212">EdgeConnect: Generative Image Inpainting with Adversarial Edge Learning</a> or <a href="http://openaccess.thecvf.com/content_ICCVW_2019/html/AIM/Nazeri_EdgeConnect_Structure_Guided_Image_Inpainting_using_Edge_Prediction_ICCVW_2019_paper.html">EdgeConnect: Structure Guided Image Inpainting using Edge Prediction</a>:
-
-```
-@inproceedings{nazeri2019edgeconnect,
-  title={EdgeConnect: Generative Image Inpainting with Adversarial Edge Learning},
-  author={Nazeri, Kamyar and Ng, Eric and Joseph, Tony and Qureshi, Faisal and Ebrahimi, Mehran},
-  journal={arXiv preprint},
-  year={2019},
-}
-
-@InProceedings{Nazeri_2019_ICCV,
-  title = {EdgeConnect: Structure Guided Image Inpainting using Edge Prediction},
-  author = {Nazeri, Kamyar and Ng, Eric and Joseph, Tony and Qureshi, Faisal and Ebrahimi, Mehran},
-  booktitle = {The IEEE International Conference on Computer Vision (ICCV) Workshops},
-  month = {Oct},
-  year = {2019}
-}
-```
